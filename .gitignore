@@ -1,7 +1,8 @@
 *.log
 *.tgz
 
-.vs
+.vs/
 node_modules/
 dist/
 example-dist/
+lib/
