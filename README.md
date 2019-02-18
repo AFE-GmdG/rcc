@@ -1,2 +1,1 @@
-# rcc
-React Control Collection
+# **React Control Collection**
