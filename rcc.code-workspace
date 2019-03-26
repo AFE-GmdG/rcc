@@ -45,6 +45,7 @@
 
 		"grunt.autoDetect": "off",
 		"gulp.autoDetect": "off",
-		"jake.autoDetect": "off"
+		"jake.autoDetect": "off",
+		"typescript.tsdk": "node_modules\\typescript\\lib"
 	}
 }

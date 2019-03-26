@@ -11,7 +11,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const path = require("path");
 const process = require("process");
-const autoprefixer = require("autoprefixer");
 
 const cwd = process.cwd();
 
@@ -61,53 +60,6 @@ module.exports = (env) => [{
 				options: {
 					highlightCode: true,
 					extends: path.resolve(cwd, ".babelrc")
-				}
-			}]
-		}, {
-			test: /\.(png|jpe?g|gif|svg)$/,
-			exclude: /node_modules/,
-			use: [{
-				loader: "url-loader",
-				options: {
-					limit: 128,
-					name: "Resources/[name].[ext]"
-				}
-			}]
-		}, {
-			test: /\.less$/,
-			exclude: /node_modules/,
-			use: [{
-				loader: "style-loader"
-			}, {
-				loader: "typings-for-css-modules-loader",
-				options: {
-					modules: true,
-					namedExport: true,
-					localIdentName: env === "release" ? "[hash:base64:4]" : "[name]-[local]"
-				}
-			}, {
-				loader: "postcss-loader",
-				options: {
-					plugins: () => [autoprefixer]
-				}
-			}, {
-				loader: "less-loader"
-			}]
-		}, {
-			test: /\.css$/,
-			use: [{
-				loader: "style-loader"
-			}, {
-				loader: "typings-for-css-modules-loader",
-				options: {
-					modules: true,
-					namedExport: true,
-					localIdentName: env === "release" ? "[hash:base64:4]" : "[name]-[local]"
-				}
-			}, {
-				loader: "postcss-loader",
-				options: {
-					plugins: () => [autoprefixer]
 				}
 			}]
 		}]
@@ -182,11 +134,7 @@ module.exports = (env) => [{
 					onCommitFiberUnmount: function () { },
 				})`
 			})
-		],
-		new webpack.WatchIgnorePlugin([
-			/css\.d\.ts$/,
-			/less\.d\.ts$/
-		])
+		]
 	],
 
 	devServer: {

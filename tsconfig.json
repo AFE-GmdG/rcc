@@ -29,7 +29,14 @@
 		"types": [
 			"react",
 			"react-dom"
-		]
+		],
+		"paths": {
+			"*": [
+				"./node_modules/@typeless/*",
+				"../node_modules/@typeless/*",
+				"../../node_modules/@typeless/*"
+			]
+		}
 	},
 
 	"exclude": [
