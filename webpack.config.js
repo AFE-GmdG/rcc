@@ -47,7 +47,7 @@ module.exports = (env) => [{
 				loader: "babel-loader",
 				options: {
 					highlightCode: true,
-					extends: path.resolve(cwd, ".babelrc")
+					extends: path.resolve(cwd, "examples.babelrc")
 				}
 			}, {
 				loader: "ts-loader"
@@ -59,7 +59,7 @@ module.exports = (env) => [{
 				loader: "babel-loader",
 				options: {
 					highlightCode: true,
-					extends: path.resolve(cwd, ".babelrc")
+					extends: path.resolve(cwd, "examples.babelrc")
 				}
 			}]
 		}]

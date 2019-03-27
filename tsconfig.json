@@ -15,15 +15,12 @@
 		"pretty": true,
 		"newLine": "LF",
 		"module": "esnext",
-		"target": "es2017",
+		"target": "esnext",
 		"moduleResolution": "node",
 		"experimentalDecorators": true,
 		"jsx": "preserve",
 		"lib": [
 			"dom",
-			"es2015",
-			"es2016",
-			"es2017",
 			"esnext"
 		],
 		"types": [
@@ -32,9 +29,7 @@
 		],
 		"paths": {
 			"*": [
-				"./node_modules/@typeless/*",
-				"../node_modules/@typeless/*",
-				"../../node_modules/@typeless/*"
+				"../node_modules/@typeless/*"
 			]
 		}
 	},
