@@ -9,25 +9,28 @@ import {
 
 const classes: StyleFunction = theme => ({
 	accordion: {
-		margin: 0
+		color: theme.colors.color,
+		backgroundColor: "#222",
+		border: "1px solid #ccc"
 	}
 });
 
-type AccordionProps = {};
-type ThemedAccordionProps = WithTheme<typeof classes> & AccordionProps;
+type AccordionTabType = (props: WithTheme<typeof classes> & AccordionTabProps) => React.FunctionComponent<WithTheme<typeof classes> & AccordionTabProps>;
 
-type AccordionState = {
-	selectedIndex: number | null;
+type AccordionTabProps = {
+	header: string;
 };
 
-const accordion = class extends React.Component<ThemedAccordionProps, AccordionState> {
+export const AccordionTab: React.FunctionComponent<AccordionTabProps> = withTheme(classes)((props: React.PropsWithChildren<WithTheme<typeof classes> & AccordionTabProps>) => (
+	<div>
+		{ props.header }
+	</div>));
 
-	constructor(props: ThemedAccordionProps) {
-		super(props);
-		this.state = {
-			selectedIndex: null
-		};
-	}
+type AccordionProps = {
+	children: React.ReactElement<AccordionTabProps, React.JSXElementConstructor<AccordionTabProps>>[] | React.ReactElement<AccordionTabProps, React.JSXElementConstructor<AccordionTabProps>> | null
+};
 
-
-}
+export const Accordion: React.FunctionComponent<AccordionProps> = withTheme(classes)((props: WithTheme<typeof classes> & AccordionProps) => (
+	<div className={ props.classes.accordion }>
+		{ props.children }
+	</div>));
