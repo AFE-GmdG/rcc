@@ -15,7 +15,7 @@ const classes: StyleFunction = theme => ({
 	}
 });
 
-type AccordionTabType = (props: WithTheme<typeof classes> & AccordionTabProps) => React.FunctionComponent<WithTheme<typeof classes> & AccordionTabProps>;
+type Obj<T> = { [key: string]: T };
 
 type AccordionTabProps = {
 	header: string;
@@ -26,11 +26,35 @@ export const AccordionTab: React.FunctionComponent<AccordionTabProps> = withThem
 		{ props.header }
 	</div>));
 
+
+
+
+type ThemedAccordionProps = WithTheme<typeof classes> & AccordionProps;
 type AccordionProps = {
-	children: React.ReactElement<AccordionTabProps, React.JSXElementConstructor<AccordionTabProps>>[] | React.ReactElement<AccordionTabProps, React.JSXElementConstructor<AccordionTabProps>> | null
+	className?: string;
 };
 
-export const Accordion: React.FunctionComponent<AccordionProps> = withTheme(classes)((props: WithTheme<typeof classes> & AccordionProps) => (
-	<div className={ props.classes.accordion }>
-		{ props.children }
-	</div>));
+type AccordionState = {
+	expandedTab: Obj<number> | null;
+};
+
+export const Accordion = withTheme(classes)(class extends React.Component<ThemedAccordionProps, AccordionState> {
+	constructor(props: ThemedAccordionProps) {
+		super(props);
+
+		this.state = {
+			expandedTab: null
+		};
+	}
+
+	static getDerivedStateFromProps(nextProps: Readonly<ThemedAccordionProps>, prevState: Readonly<ThemedAccordionProps>): Partial<ThemedAccordionProps> | null {
+		return null;
+	}
+
+	render() {
+		const { classes, className } = this.props;
+		return (
+			<div className={classNames(classes.accordion, className)}>
+			</div>);
+	}
+});

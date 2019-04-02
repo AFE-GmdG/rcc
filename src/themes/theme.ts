@@ -6,11 +6,35 @@ export type Theme = typeof defaultTheme;
 export type Themes = { [key: string]: Theme };
 
 export const defaultTheme = {
+	baseSize: "14px",
+
+	fonts: {
+		fontSizeSmall: "calc(var(--base-size) * 0.86)",
+		fontSizeMedium: "calc(var(--base-size) * 1.00)",
+		fontSizeLarge: "calc(var(--base-size) * 1.29)",
+		fontSizeXLarge: "calc(var(--base-size) * 1.71)",
+		fontSizeXXLarge: "calc(var(--base-size) * 2.29)",
+		lineHeightSmall: "calc(var(--base-size) * 1.29)",
+		lineHeightMedium: "calc(var(--base-size) * 1.50)",
+		lineHeightLarge: "calc(var(--base-size) * 1.94)",
+		lineHeightXLarge: "calc(var(--base-size) * 2.57)",
+		lineHeightXXLarge: "calc(var(--base-size) * 3.44)"
+	},
+
 	colors: {
 		color: "hsl(0, 0%, 95%)",
 		hoverColor: "hsl(0, 0%, 100%)",
-		buttonColor: "hsl(0, 0%, 12%)",
-		hoverButtonColor: "hsl(0, 0%, 18%)",
+		accentColor: "hsl(163, 80%, 40%)",
+		selectedColor: "hsl(163, 65%, 5%)",
+		backgroundColor: "hsl(0, 0%, 12%)",
+		hoverBackgroundColor: "hsl(0, 0%, 18%)",
+		accentBackgroundColor: "hsl(163, 80%, 40%)",
+		selectedBackgroundColor: "hsl(163, 65%, 50%)",
+		borderColor: "hsl(163, 25%, 40%)"
+	},
+
+	box: {
+		shadow: "0 0 1rem 0 hsla(0, 0%, 0%, 0.75)"
 	}
 };
 //#endregion

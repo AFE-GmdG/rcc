@@ -12,12 +12,12 @@ const classes: StyleFunction = theme => ({
 		margin: 0,
 		padding: "0.5rem 1rem",
 		color: theme.colors.color,
-		backgroundColor: theme.colors.buttonColor,
+		backgroundColor: theme.colors.backgroundColor,
 		border: "1px solid #000",
 
 		"&:hover": {
 			color: theme.colors.hoverColor,
-			backgroundColor: theme.colors.hoverButtonColor
+			backgroundColor: theme.colors.hoverBackgroundColor
 		}
 	}
 });

@@ -23,10 +23,6 @@
 			"dom",
 			"esnext"
 		],
-		"types": [
-			"react",
-			"react-dom"
-		],
 		"paths": {
 			"*": [
 				"../node_modules/@typeless/*"

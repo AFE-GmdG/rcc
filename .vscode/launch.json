@@ -7,7 +7,9 @@
 		"url": "http://localhost:8080",
 		"webRoot": "${workspaceFolder}/example-dist",
 		"preLaunchTask": "npm: start",
-		"runtimeArgs": [],
+		"runtimeArgs": [
+      "--load-extension=${env:LOCALAPPDATA}\\Google\\Chrome\\User Data\\Default\\Extensions\\fmkadmapgofadopljbjfkapdkoienihi\\3.6.0_0"
+		],
 		"breakOnLoad": false,
 		"breakOnLoadStrategy": "instrument",
 		"sourceMaps": true,
