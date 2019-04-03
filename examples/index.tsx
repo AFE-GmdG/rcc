@@ -5,17 +5,18 @@ import {
 	StyleFunction,
 	Theme,
 	ThemeProvider,
-	WithTheme,
 	classNames,
 	conditionalClassName,
 	defaultTheme,
 	withTheme
-} from "../src/themes";
+} from "./themes";
 import {
 	Accordion,
 	AccordionTab,
-	Button
-} from "../src/components";
+	Button,
+	HorizontalSplitContainer,
+	PageFooter
+} from "./components";
 
 const themedClasses: StyleFunction = theme => ({
 	"@global": {
@@ -95,6 +96,15 @@ const themedClasses: StyleFunction = theme => ({
 		}
 	},
 
+	"@keyframes spinner": {
+		"0%": {
+			transform: "rotate(0deg)"
+		},
+		"100%": {
+			transform: "rotate(360deg)"
+		}
+	},
+
 	pageContent: {
 		position: "relative",
 		flex: "1 0 0%",
@@ -125,7 +135,65 @@ const themedClasses: StyleFunction = theme => ({
 			pointerEvents: "unset",
 			boxShadow: "inset 0 0 0 100vh rgba(0, 0, 0, 0.5)"
 		}
-	}
+	},
+
+	spinner: {
+		position: "absolute",
+		top: 0,
+		right: 0,
+		bottom: 0,
+		left: 0,
+		width: "3.5rem",
+		height: "3.5rem",
+		margin: "auto",
+		borderRadius: "50%",
+		border: "0.3rem solid transparent",
+		borderBottomColor: theme.colors.accentBackgroundColor,
+		animation: "spinner 1500ms linear infinite",
+
+		"&::before, &::after": {
+			content: "''",
+			position: "absolute",
+			top: "0.2rem",
+			right: "0.2rem",
+			bottom: "0.2rem",
+			left: "0.2rem",
+			borderRadius: "50%",
+			border: "0.3rem solid transparent",
+			borderBottomColor: theme.colors.accentBackgroundColor,
+			animation: "spinner 3000ms linear infinite"
+		},
+
+		"&::after": {
+			top: "0.7rem",
+			right: "0.7rem",
+			bottom: "0.7rem",
+			left: "0.7rem",
+			animation: "spinner 1500ms linear infinite"
+		}
+	},
+
+	spinnerTitle: {
+		display: "inline-block",
+		position: "absolute",
+		top: "calc(50% + 3.4rem)",
+		right: 0,
+		left: 0,
+		width: "fit-content",
+		margin: "auto",
+		padding: "0.3rem 0.5rem",
+		borderRadius: "0.2rem"
+	},
+
+	leftArea: {
+		boxSizing: "border-box",
+		height: "100%",
+		borderRight: `1px solid ${theme.colors.borderColor}`
+	},
+
+	rightArea: {
+		height: "100%"
+	},
 });
 
 type BusyState = string | null;
@@ -139,9 +207,18 @@ const App: React.FunctionComponent = withTheme(themedClasses)(props => {
 	return (
 		<>
 			{/* PageTitle / BreadCrumb */ }
-			<div className={ classes.pageContent }></div>
-			{/* PageFooter */ }
+			<HorizontalSplitContainer className={ classes.pageContent } lengths={ [1, 3] }>
+				<div className={ classes.leftArea}></div>
+				<div className={ classes.rightArea }></div>
+			</HorizontalSplitContainer>
+			<PageFooter />
 			<div className={ classNames(classes.spinnerContainer, conditionalClassName(classes.visible, busyState !== null)) }>
+				{ busyState !== null
+					? <>
+						<div className={ props.classes.spinner } />
+						<div className={ props.classes.spinnerTitle }>{ busyState }</div>
+					</>
+					: null }
 			</div>
 		</>);
 });
