@@ -95,6 +95,94 @@ function useLengths(children: React.ReactNode, initialLengths?: number[]): [numb
 
 const splitContainer = (panelDirection: PanelDirection): React.FunctionComponent<ThemedSplitContainerProps> => props => {
 	function onSplitterMouseDown(event: React.MouseEvent<HTMLDivElement>) {
+		type ChildInfo = {
+			element: HTMLDivElement;
+			width: number;
+			height: number;
+		};
+
+		const { currentTarget, clientX, clientY } = event;
+		const { parentElement, previousElementSibling, nextElementSibling } = currentTarget;
+
+		if (!parentElement || !previousElementSibling || !nextElementSibling) {
+			return;
+		}
+
+		const children = parentElement.querySelectorAll<HTMLDivElement>(`:scope > .${classes.childContainer}`);
+		const length = children.length;
+		const childInfos: ChildInfo[] = [];
+		let previousElementInfo: ChildInfo;
+		let nextElementInfo: ChildInfo;
+		for (let index = 0; index < length; ++index) {
+			const child = children.item(index);
+			const clientRect = child.getBoundingClientRect();
+			childInfos.push({
+				element: child,
+				width: clientRect.width,
+				height: clientRect.height
+			});
+			if (child === previousElementSibling) {
+				previousElementInfo = childInfos[childInfos.length - 1];
+			} else if (child === nextElementSibling) {
+				nextElementInfo = childInfos[childInfos.length - 1];
+			}
+		}
+
+		const onSplitterMouseMove = (event: MouseEvent) => {
+			if (panelDirection === "horizontal") {
+				const delta = event.clientX - clientX;
+				previousElementInfo.element.style.flex = `${(previousElementInfo.width + delta).toFixed(3)} 0 0%`
+				nextElementInfo.element.style.flex = `${(nextElementInfo.width - delta).toFixed(3)} 0 0%`
+			} else {
+				const delta = event.clientY - clientY;
+				previousElementInfo.element.style.flex = `${(previousElementInfo.height + delta).toFixed(3)} 0 0%`
+				nextElementInfo.element.style.flex = `${(nextElementInfo.height - delta).toFixed(3)} 0 0%`
+			}
+		};
+
+		const onSplitterMouseUp = (event: MouseEvent) => {
+			window.removeEventListener("mouseup", onSplitterMouseUp);
+			window.removeEventListener("mousemove", onSplitterMouseMove);
+
+			const newLengths: number[] = [];
+			if (panelDirection === "horizontal") {
+				const delta = event.clientX - clientX;
+				childInfos.forEach(childInfo => {
+					if (childInfo === previousElementInfo) {
+						newLengths.push(previousElementInfo.width + delta);
+					} else if (childInfo === nextElementInfo) {
+						newLengths.push(nextElementInfo.width - delta);
+					} else {
+						newLengths.push(childInfo.width);
+					}
+				})
+			} else {
+				const delta = event.clientY - clientY;
+				childInfos.forEach(childInfo => {
+					if (childInfo === previousElementInfo) {
+						newLengths.push(previousElementInfo.height + delta);
+					} else if (childInfo === nextElementInfo) {
+						newLengths.push(nextElementInfo.height - delta);
+					} else {
+						newLengths.push(childInfo.height);
+					}
+				});
+			}
+			setLengths(newLengths);
+		};
+
+		if (panelDirection === "horizontal") {
+			childInfos.forEach(childInfo => {
+				childInfo.element.style.flex = `${childInfo.width.toFixed(3)} 0 0%`;
+			});
+		} else {
+			childInfos.forEach(childInfo => {
+				childInfo.element.style.flex = `${childInfo.height.toFixed(3)} 0 0%`;
+			});
+		}
+
+		window.addEventListener("mousemove", onSplitterMouseMove);
+		window.addEventListener("mouseup", onSplitterMouseUp);
 
 		event.stopPropagation();
 	}
