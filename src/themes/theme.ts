@@ -30,6 +30,10 @@ export const defaultTheme = {
 		hoverBackgroundColor: "hsl(0, 0%, 18%)",
 		accentBackgroundColor: "hsl(163, 80%, 40%)",
 		selectedBackgroundColor: "hsl(163, 65%, 50%)",
+
+		evenBackgroundColor: "hsl(0, 0%, 18%)",
+		oddBackgroundColor: "hsl(0, 0%, 15%)",
+
 		borderColor: "hsl(163, 25%, 40%)"
 	},
 

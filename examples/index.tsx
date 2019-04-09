@@ -14,10 +14,13 @@ import {
 	Accordion,
 	AccordionTab,
 	Button,
+	// ListView,
 	HorizontalSplitContainer,
+	VerticalSplitContainer,
 	PageFooter
 } from "./components";
 
+//#region Konstanten
 const themedClasses: StyleFunction = theme => ({
 	"@global": {
 		html: {
@@ -186,19 +189,64 @@ const themedClasses: StyleFunction = theme => ({
 	},
 
 	leftArea: {
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "flex-start",
+		alignContent: "stretch",
 		boxSizing: "border-box",
 		height: "100%",
 		borderRight: `1px solid ${theme.colors.borderColor}`
 	},
 
-	rightArea: {
+	centerArea: {
 		height: "100%"
 	},
+
+	rightArea: {
+		boxSizing: "border-box",
+		height: "100%",
+		borderLeft: `1px solid ${theme.colors.borderColor}`
+	},
+
+	topArea: {
+		boxSizing: "border-box",
+		height: "100%",
+		borderBottom: `1px solid ${theme.colors.borderColor}`
+	},
+
+	bottomArea: {
+		boxSizing: "border-box",
+		height: "100%",
+		borderTop: `1px solid ${theme.colors.borderColor}`
+	},
+
+	listView: {
+		flex: "1 0 0%",
+		margin: "2rem",
+		borderRadius: "0.3rem",
+		boxShadow: theme.box.shadow
+	}
 });
+
+const listViewData: ListViewDataType[] = [
+	{ label: "ListView", group: "ListView" },
+	{ label: "ListViewItem", group: "ListView" },
+	{ label: "TreeView", group: "TreeView" },
+	{ label: "TreeViewItem", group: "TreeView" }
+];
+//#endregion
+
+//#region Typen
+type ListViewDataType = {
+	label: string;
+	group: string;
+};
 
 type BusyState = string | null;
 let setBusyState: React.Dispatch<React.SetStateAction<BusyState>>;
+//#endregion
 
+//#region App
 const App: React.FunctionComponent = withTheme(themedClasses)(props => {
 	const [busyState, _setBusyState] = React.useState<BusyState>(null);
 	setBusyState = _setBusyState;
@@ -208,7 +256,8 @@ const App: React.FunctionComponent = withTheme(themedClasses)(props => {
 		<>
 			{/* PageTitle / BreadCrumb */ }
 			<HorizontalSplitContainer className={ classes.pageContent } lengths={ [1, 3] }>
-				<div className={ classes.leftArea}></div>
+				<div className={ classes.leftArea }>
+				</div>
 				<div className={ classes.rightArea }></div>
 			</HorizontalSplitContainer>
 			<PageFooter />
@@ -222,7 +271,9 @@ const App: React.FunctionComponent = withTheme(themedClasses)(props => {
 			</div>
 		</>);
 });
+//#endregion
 
+//#region ReactDom.render + AppInitialization
 const render = (theme: Theme, callback?: () => void) =>
 	ReactDOM.render(<ThemeProvider theme={ theme }><App /></ThemeProvider>,
 		document.getElementById("main"),
@@ -251,3 +302,4 @@ if (process.env.NODE_ENV === "development") {
 	};
 	socket("/sockjs-node", onSocketMsg);
 }
+//#endregion
