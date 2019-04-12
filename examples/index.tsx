@@ -4,6 +4,8 @@ import * as ReactDOM from "react-dom";
 import { StyleFunction, Theme, ThemeProvider, classNames, conditionalClassName, defaultTheme, withTheme } from "./themes";
 import { Accordion, AccordionTab, Button, ListView, HorizontalSplitContainer, VerticalSplitContainer, PageFooter } from "./components";
 
+import { Foo1Component, Foo2Component } from "../src/components/listView";
+
 //#region Konstanten
 const themedClasses: StyleFunction = theme => ({
 	"@global": {
@@ -226,10 +228,13 @@ const listViewDataB: ListViewDataType[] = [
 type ListViewDataType = {
 	label: string;
 	group: string;
+	foo?: {};
 };
 
 type BusyState = string | null;
 let setBusyState: React.Dispatch<React.SetStateAction<BusyState>>;
+
+// type ListViewDataTypeListView = ListView<ListViewDataType>;
 //#endregion
 
 //#region App
@@ -244,11 +249,14 @@ const App: React.FunctionComponent = withTheme(themedClasses)(props => {
 			{/* PageTitle / BreadCrumb */ }
 			<HorizontalSplitContainer className={ classes.pageContent } lengths={ [1, 3] }>
 				<div className={ classNames(classes.area, classes.rightBorder, classes.listViewContainer) }>
-					<ListView className={ classes.listView } data={ listViewData } />
+					<ListView className={ classes.listView } data={ listViewData } keyName={ "label" } />
 				</div>
 				<div className={ classNames(classes.area, classes.leftBorder) }>
 					<button onClick={ () => setListViewData(listViewDataA) }>ListViewDataA</button>
 					<button onClick={ () => setListViewData(listViewDataB) }>ListViewDataB</button>
+
+					<Foo1Component />
+					<Foo2Component />
 				</div>
 			</HorizontalSplitContainer>
 			<PageFooter />

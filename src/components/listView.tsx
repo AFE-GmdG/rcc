@@ -31,31 +31,51 @@ const themedClasses: StyleFunction = theme => ({
 //#endregion
 
 //#region Typen
-type ListViewProps = {
+type ListViewProps<T> = {
 	className?: string;
-	data: any[];
+	data: T[];
+	// keyName: T[keyof T] extends string | number ? keyof T : never;
+	keyName: keyof T;
+	children?: React.ReactNode;
 };
 
-type ThemedListViewProps = WithTheme<StyleFunction> & ListViewProps;
+type ThemedListViewProps<T> = WithTheme<StyleFunction> & ListViewProps<T>;
 //#endregion
 
 //#region Hooks
 //#endregion
 
 //#region ListView
-export const ListView: React.FunctionComponent<ListViewProps> = withTheme(themedClasses)((props: ThemedListViewProps) => {
-	const { classes, className, data } = props;
 
-	const listViewItems = data.map((dataItem, index) => {
+export function ListView<T>(props: ListViewProps<T>): React.ReactElement {
+	const { children } = props;
+	const ThemedListView = withTheme(themedClasses)((props: ThemedListViewProps<T>) => {
+		const { classes, className, data, keyName } = props;
+
+		const listViewItems = data.map((dataItem, index) => {
+			return (
+				<div key={ (dataItem as any).label /*dataItem[keyName]*/ } className={ classNames(classes.listViewItem, index % 2 === 0 ? classes.even : classes.odd) }>
+					{ dataItem[keyName] }
+				</div>);
+		});
+
 		return (
-			<div key={ dataItem.label } className={ classNames(classes.listViewItem, index % 2 === 0 ? classes.even : classes.odd) }>
-				{ dataItem.label }
+			<div className={ classNames(classes.listView, className) }>
+				{ listViewItems }
 			</div>);
 	});
 
-	return (
-		<div className={ classNames(classes.listView, className) }>
-			{ listViewItems }
-		</div>);
-});
+	return React.createElement(ThemedListView, props, children);
+	// return <ThemedListView { ...props } />;
+}
+
+
+
+export const Foo1Component: React.FunctionComponent = props => {
+	return <div>Foo1</div>;
+}
+
+export function Foo2Component(props: {}): React.ReactElement | null {
+	return <div>Foo2</div>;
+}
 //#endregion
