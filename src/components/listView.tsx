@@ -34,8 +34,7 @@ const themedClasses: StyleFunction = theme => ({
 type ListViewProps<T> = {
 	className?: string;
 	data: T[];
-	// keyName: T[keyof T] extends string | number ? keyof T : never;
-	keyName: keyof T;
+	keyName: Exclude<{ [K in keyof T]: T[K] extends string | number ? K : never }[keyof T], undefined>;
 	children?: React.ReactNode;
 };
 
