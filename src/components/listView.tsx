@@ -31,29 +31,31 @@ const themedClasses: StyleFunction = theme => ({
 //#endregion
 
 //#region Typen
-
 type ListViewProps = {
 	className?: string;
+	data: any[];
 };
 
 type ThemedListViewProps = WithTheme<StyleFunction> & ListViewProps;
 //#endregion
 
 //#region Hooks
-function useData<TData>(initialData: TData) {
-	const [data, setData] = React.useState<TData>(initialData);
-
-}
 //#endregion
 
 //#region ListView
-export const ListView = withTheme(themedClasses)((props: ThemedListViewProps) => {
-	const { classes, className } = props;
+export const ListView: React.FunctionComponent<ListViewProps> = withTheme(themedClasses)((props: ThemedListViewProps) => {
+	const { classes, className, data } = props;
+
+	const listViewItems = data.map((dataItem, index) => {
+		return (
+			<div key={ dataItem.label } className={ classNames(classes.listViewItem, index % 2 === 0 ? classes.even : classes.odd) }>
+				{ dataItem.label }
+			</div>);
+	});
 
 	return (
 		<div className={ classNames(classes.listView, className) }>
+			{ listViewItems }
 		</div>);
 });
 //#endregion
-
-

@@ -1,13 +1,8 @@
 import * as React from "react";
 
-import {
-	StyleFunction,
-	WithTheme,
-	withTheme,
-	classNames,
-	conditionalClassName
-} from "../themes";
+import { StyleFunction, WithTheme, withTheme, classNames, conditionalClassName } from "../themes";
 
+//#region Konstanten
 const themedClasses: StyleFunction = theme => ({
 	row: {},
 
@@ -29,6 +24,10 @@ const themedClasses: StyleFunction = theme => ({
 
 	childContainer: {
 		position: "relative",
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "flex-start",
+		alignItems: "stretch",
 		overflow: "hidden"
 	},
 
@@ -54,15 +53,28 @@ const themedClasses: StyleFunction = theme => ({
 	}
 });
 
+let clearTimeoutHandle: number | undefined = undefined;
+//#endregion
+
+//#region Typen
 type PanelDirection = "horizontal" | "vertical";
 
 type SplitContainerProps = {
 	className?: string;
 	lengths?: number[];
+	children?: React.ReactNode;
 };
 
 type ThemedSplitContainerProps = WithTheme<typeof themedClasses> & SplitContainerProps;
 
+type SplitPanelProps = {
+	className: string;
+	size: number;
+	child: React.ReactNode;
+};
+//#endregion
+
+//#region Hooks
 function useLengths(children: React.ReactNode, initialLengths?: number[]): [number[], React.Dispatch<React.SetStateAction<number[]>>] {
 	const [lengths, setLengths] = React.useState<number[]>(initialLengths || []);
 
@@ -92,8 +104,10 @@ function useLengths(children: React.ReactNode, initialLengths?: number[]): [numb
 	const overheadPerItem = overhead / overheadCount;
 	return [lengths.concat(Array.from({ length: overheadCount }, () => overheadPerItem)), setLengths];
 }
+//#endregion
 
-const splitContainer = (panelDirection: PanelDirection): React.FunctionComponent<ThemedSplitContainerProps> => props => {
+//#region SplitContainer
+const splitContainer = (panelDirection: PanelDirection): React.FunctionComponent<SplitContainerProps> => withTheme(themedClasses)((props: ThemedSplitContainerProps) => {
 	function onSplitterMouseDown(event: React.MouseEvent<HTMLDivElement>) {
 		type ChildInfo = {
 			element: HTMLDivElement;
@@ -131,12 +145,12 @@ const splitContainer = (panelDirection: PanelDirection): React.FunctionComponent
 		const onSplitterMouseMove = (event: MouseEvent) => {
 			if (panelDirection === "horizontal") {
 				const delta = event.clientX - clientX;
-				previousElementInfo.element.style.flex = `${(previousElementInfo.width + delta).toFixed(3)} 0 0%`
-				nextElementInfo.element.style.flex = `${(nextElementInfo.width - delta).toFixed(3)} 0 0%`
+				previousElementInfo.element.style.flex = `${(previousElementInfo.width + delta).toFixed(3)} 0 0%`;
+				nextElementInfo.element.style.flex = `${(nextElementInfo.width - delta).toFixed(3)} 0 0%`;
 			} else {
 				const delta = event.clientY - clientY;
-				previousElementInfo.element.style.flex = `${(previousElementInfo.height + delta).toFixed(3)} 0 0%`
-				nextElementInfo.element.style.flex = `${(nextElementInfo.height - delta).toFixed(3)} 0 0%`
+				previousElementInfo.element.style.flex = `${(previousElementInfo.height + delta).toFixed(3)} 0 0%`;
+				nextElementInfo.element.style.flex = `${(nextElementInfo.height - delta).toFixed(3)} 0 0%`;
 			}
 		};
 
@@ -155,7 +169,7 @@ const splitContainer = (panelDirection: PanelDirection): React.FunctionComponent
 					} else {
 						newLengths.push(childInfo.width);
 					}
-				})
+				});
 			} else {
 				const delta = event.clientY - clientY;
 				childInfos.forEach(childInfo => {
@@ -194,7 +208,7 @@ const splitContainer = (panelDirection: PanelDirection): React.FunctionComponent
 		? null
 		: Array.isArray(children)
 			? children.reduce<React.ReactNodeArray>((acc, child, index) => {
-				acc.push(<div key={ `child-${index}` } className={ classes.childContainer } style={ { flex: `${lengths[index]} 0 0%` } } >{ child }</div>);
+				acc.push(<SplitPanel key={ `child-${index}` } className={ classes.childContainer } size={ lengths[index] } child={ child } />);
 				if (index + 1 < children.length) {
 					acc.push(<div key={ `splitter-${index}` }
 						className={ classNames(classes.splitter,
@@ -204,13 +218,35 @@ const splitContainer = (panelDirection: PanelDirection): React.FunctionComponent
 				}
 				return acc;
 			}, [])
-			: <div key={ `child-0` } className={ classes.childContainer } style={ { flex: `${lengths[0]} 0 0%` } } >{ children }</div>;
+			: (<SplitPanel key={ `child-0` } className={ classes.childContainer } size={ lengths[0] } child={ children } />);
 
 	return (
 		<div className={ classNames(className, classes.splitterContainer, panelDirection === "horizontal" ? classes.row : classes.col) }>
 			{ panels }
 		</div>);
+});
+
+const SplitPanel: React.FunctionComponent<SplitPanelProps> = props => {
+	const { className, size, child } = props;
+
+	React.useLayoutEffect(() => {
+		// console.log(`SplitPanel: ${size}`);
+		// Debounced Resize Event.
+		if (clearTimeoutHandle !== undefined) {
+			window.clearTimeout(clearTimeoutHandle);
+		}
+		clearTimeoutHandle = window.setTimeout(() => {
+			clearTimeoutHandle = undefined;
+			const resizeEvent = window.document.createEvent("UIEvent");
+			resizeEvent.initUIEvent("resize", true, false, window, 0);
+			window.dispatchEvent(resizeEvent);
+		});
+	}, [size]);
+
+	return (
+		<div className={ className } style={ { flex: `${size} 0 0%` } }>{ child }</div>);
 };
 
-export const HorizontalSplitContainer = withTheme(themedClasses)(splitContainer("horizontal"));
-export const VerticalSplitContainer = withTheme(themedClasses)(splitContainer("vertical"));
+export const HorizontalSplitContainer = splitContainer("horizontal");
+export const VerticalSplitContainer = splitContainer("vertical");
+//#endregion

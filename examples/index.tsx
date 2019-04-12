@@ -1,24 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import {
-	StyleFunction,
-	Theme,
-	ThemeProvider,
-	classNames,
-	conditionalClassName,
-	defaultTheme,
-	withTheme
-} from "./themes";
-import {
-	Accordion,
-	AccordionTab,
-	Button,
-	// ListView,
-	HorizontalSplitContainer,
-	VerticalSplitContainer,
-	PageFooter
-} from "./components";
+import { StyleFunction, Theme, ThemeProvider, classNames, conditionalClassName, defaultTheme, withTheme } from "./themes";
+import { Accordion, AccordionTab, Button, ListView, HorizontalSplitContainer, VerticalSplitContainer, PageFooter } from "./components";
 
 //#region Konstanten
 const themedClasses: StyleFunction = theme => ({
@@ -188,36 +172,31 @@ const themedClasses: StyleFunction = theme => ({
 		borderRadius: "0.2rem"
 	},
 
-	leftArea: {
-		display: "flex",
-		flexDirection: "column",
-		justifyContent: "flex-start",
-		alignContent: "stretch",
-		boxSizing: "border-box",
-		height: "100%",
+	area: {
+		flex: "1 0 0%"
+	},
+
+	topBorder: {
+		borderTop: `1px solid ${theme.colors.borderColor}`
+	},
+
+	rightBorder: {
 		borderRight: `1px solid ${theme.colors.borderColor}`
 	},
 
-	centerArea: {
-		height: "100%"
-	},
-
-	rightArea: {
-		boxSizing: "border-box",
-		height: "100%",
-		borderLeft: `1px solid ${theme.colors.borderColor}`
-	},
-
-	topArea: {
-		boxSizing: "border-box",
-		height: "100%",
+	bottomBorder: {
 		borderBottom: `1px solid ${theme.colors.borderColor}`
 	},
 
-	bottomArea: {
-		boxSizing: "border-box",
-		height: "100%",
-		borderTop: `1px solid ${theme.colors.borderColor}`
+	leftBorder: {
+		borderLeft: `1px solid ${theme.colors.borderColor}`
+	},
+
+	listViewContainer: {
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "flex-start",
+		alignItems: "stretch"
 	},
 
 	listView: {
@@ -228,11 +207,18 @@ const themedClasses: StyleFunction = theme => ({
 	}
 });
 
-const listViewData: ListViewDataType[] = [
-	{ label: "ListView", group: "ListView" },
-	{ label: "ListViewItem", group: "ListView" },
-	{ label: "TreeView", group: "TreeView" },
-	{ label: "TreeViewItem", group: "TreeView" }
+const listViewDataA: ListViewDataType[] = [
+	{ label: "A / ListView", group: "ListView" },
+	{ label: "A / ListViewItem", group: "ListView" },
+	{ label: "A / TreeView", group: "TreeView" },
+	{ label: "A / TreeViewItem", group: "TreeView" }
+];
+
+const listViewDataB: ListViewDataType[] = [
+	{ label: "B / ListView", group: "ListView" },
+	{ label: "B / ListViewItem", group: "ListView" },
+	{ label: "B / TreeView", group: "TreeView" },
+	{ label: "B / TreeViewItem", group: "TreeView" }
 ];
 //#endregion
 
@@ -248,17 +234,22 @@ let setBusyState: React.Dispatch<React.SetStateAction<BusyState>>;
 
 //#region App
 const App: React.FunctionComponent = withTheme(themedClasses)(props => {
+	const { classes } = props;
+	const [listViewData, setListViewData] = React.useState<ListViewDataType[]>(listViewDataA);
 	const [busyState, _setBusyState] = React.useState<BusyState>(null);
 	setBusyState = _setBusyState;
 
-	const { classes } = props;
 	return (
 		<>
 			{/* PageTitle / BreadCrumb */ }
 			<HorizontalSplitContainer className={ classes.pageContent } lengths={ [1, 3] }>
-				<div className={ classes.leftArea }>
+				<div className={ classNames(classes.area, classes.rightBorder, classes.listViewContainer) }>
+					<ListView className={ classes.listView } data={ listViewData } />
 				</div>
-				<div className={ classes.rightArea }></div>
+				<div className={ classNames(classes.area, classes.leftBorder) }>
+					<button onClick={ () => setListViewData(listViewDataA) }>ListViewDataA</button>
+					<button onClick={ () => setListViewData(listViewDataB) }>ListViewDataB</button>
+				</div>
 			</HorizontalSplitContainer>
 			<PageFooter />
 			<div className={ classNames(classes.spinnerContainer, conditionalClassName(classes.visible, busyState !== null)) }>
