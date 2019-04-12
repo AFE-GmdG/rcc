@@ -46,7 +46,6 @@ type ThemedListViewProps<T> = WithTheme<StyleFunction> & ListViewProps<T>;
 //#endregion
 
 //#region ListView
-
 export function ListView<T>(props: ListViewProps<T>): React.ReactElement {
 	const { children } = props;
 	const ThemedListView = withTheme(themedClasses)((props: ThemedListViewProps<T>) => {
@@ -68,14 +67,17 @@ export function ListView<T>(props: ListViewProps<T>): React.ReactElement {
 	return React.createElement(ThemedListView, props, children);
 	// return <ThemedListView { ...props } />;
 }
+//#endregion
 
-
-
+//#region Foo1Component - Standard
 export const Foo1Component: React.FunctionComponent = props => {
 	return <div>Foo1</div>;
 }
+//#endregion
 
-export function Foo2Component(props: {}): React.ReactElement | null {
+//#region Foo2Component - Umgeformt zu einer Funktion
+// Umgeformt zu einer Funktion, weil Funktionen im Gegensatz zu Konstanten einen generischen Typparameter bekommen können.
+export function Foo2Component(props: {}): React.ReactElement {
 	return <div>Foo2</div>;
 }
 //#endregion
