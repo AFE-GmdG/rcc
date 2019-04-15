@@ -1,17 +1,2 @@
-export {
-  CSSProperties,
-  Style,
-  StyleFunction,
-  StyleOrStyleFunction,
-  Theme,
-  Themes,
-  WithTheme,
-  defaultTheme,
-  classNames,
-  conditionalClassName
-} from "./theme";
-
-export {
-  ThemeProvider,
-  withTheme
-} from "./provider";
+export { CSSProperties, Style, StyleFunction, Theme, Themes, defaultTheme, classNames, conditionalClassName } from "./theme";
+export { ThemeProvider, useTheme } from "./provider";

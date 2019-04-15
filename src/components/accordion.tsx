@@ -1,13 +1,8 @@
 import * as React from "react";
 
-import {
-	WithTheme,
-	withTheme,
-	StyleFunction,
-	classNames
-} from "../themes";
+import { StyleFunction, classNames, useTheme } from "../themes";
 
-const classes: StyleFunction = theme => ({
+const themedClasses: StyleFunction = theme => ({
 	accordion: {
 		color: theme.colors.color,
 		backgroundColor: "#222",
@@ -17,29 +12,30 @@ const classes: StyleFunction = theme => ({
 
 type Obj<T> = { [key: string]: T };
 
+type AccordionProps = {
+	className?: string;
+};
+
 type AccordionTabProps = {
 	header: string;
 };
 
-export const AccordionTab: React.FunctionComponent<AccordionTabProps> = withTheme(classes)((props: React.PropsWithChildren<WithTheme<typeof classes> & AccordionTabProps>) => (
-	<div>
-		{ props.header }
-	</div>));
-
-
-
-
-type ThemedAccordionProps = WithTheme<typeof classes> & AccordionProps;
-type AccordionProps = {
-	className?: string;
+export const AccordionTab: React.FC<AccordionTabProps> = props => {
+	return (
+		<div>
+			{ props.header }
+		</div>)
 };
+
+
+
 
 type AccordionState = {
 	expandedTab: Obj<number> | null;
 };
 
-export const Accordion = withTheme(classes)(class extends React.Component<ThemedAccordionProps, AccordionState> {
-	constructor(props: ThemedAccordionProps) {
+export const Accordion = (class extends React.Component<AccordionProps, AccordionState> {
+	constructor(props: AccordionProps) {
 		super(props);
 
 		this.state = {
@@ -47,12 +43,13 @@ export const Accordion = withTheme(classes)(class extends React.Component<Themed
 		};
 	}
 
-	static getDerivedStateFromProps(nextProps: Readonly<ThemedAccordionProps>, prevState: Readonly<ThemedAccordionProps>): Partial<ThemedAccordionProps> | null {
+	static getDerivedStateFromProps(nextProps: Readonly<AccordionProps>, prevState: Readonly<AccordionProps>): Partial<AccordionProps> | null {
 		return null;
 	}
 
 	render() {
-		const { classes, className } = this.props;
+		const { className } = this.props;
+		const classes = useTheme(themedClasses);
 		return (
 			<div className={classNames(classes.accordion, className)}>
 			</div>);

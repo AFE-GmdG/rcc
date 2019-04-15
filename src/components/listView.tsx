@@ -1,12 +1,6 @@
 import * as React from "react";
 
-import {
-	StyleFunction,
-	WithTheme,
-	withTheme,
-	classNames,
-	conditionalClassName
-} from "../themes";
+import { StyleFunction, classNames, useTheme } from "../themes";
 
 //#region Konstanten
 const themedClasses: StyleFunction = theme => ({
@@ -31,52 +25,58 @@ const themedClasses: StyleFunction = theme => ({
 //#endregion
 
 //#region Typen
+type PickType<T, K> = Pick<T, Exclude<{ [P in keyof T]: T[P] extends K ? P : undefined }[keyof T], undefined>>;
+
 type ListViewProps<T> = {
 	className?: string;
+	itemClassName?: string;
+	evenItemClassName?: string;
+	oddItemClassName?: string;
 	data: T[];
-	keyName: Exclude<{ [K in keyof T]: T[K] extends string | number ? K : never }[keyof T], undefined>;
+	keyProperty: keyof PickType<T, string | number>;
+	valueProperty?: keyof T;
+	itemTemplate?: React.JSXElementConstructor<ListViewItemProps<T>>;
 	children?: React.ReactNode;
 };
 
-type ThemedListViewProps<T> = WithTheme<StyleFunction> & ListViewProps<T>;
-//#endregion
+export type ListViewItemProps<T> = {
+	className?: string;
+	item: T,
+	valueProperty: keyof T;
+};
 
-//#region Hooks
 //#endregion
 
 //#region ListView
 export function ListView<T>(props: ListViewProps<T>): React.ReactElement {
-	const { children } = props;
-	const ThemedListView = withTheme(themedClasses)((props: ThemedListViewProps<T>) => {
-		const { classes, className, data, keyName } = props;
+	const { className, itemClassName, evenItemClassName, oddItemClassName, data, keyProperty } = props;
+	const itemTemplate = props.itemTemplate || ListViewItemTemplate;
+	const valueProperty = props.valueProperty || keyProperty;
+	const classes = useTheme(themedClasses);
 
-		const listViewItems = data.map((dataItem, index) => {
-			return (
-				<div key={ (dataItem as any).label /*dataItem[keyName]*/ } className={ classNames(classes.listViewItem, index % 2 === 0 ? classes.even : classes.odd) }>
-					{ dataItem[keyName] }
-				</div>);
+	const listViewItems = data.map((item, index) => {
+		return React.createElement(itemTemplate, {
+			className: classNames(itemClassName || classes.listViewItem, index% 2 === 0 ? evenItemClassName || classes.even : oddItemClassName || classes.odd),
+			item,
+			valueProperty,
+			key: item[keyProperty] as any
 		});
-
-		return (
-			<div className={ classNames(classes.listView, className) }>
-				{ listViewItems }
-			</div>);
 	});
 
-	return React.createElement(ThemedListView, props, children);
-	// return <ThemedListView { ...props } />;
+	return (
+		<div className={ classNames(classes.listView, className) }>
+			{ listViewItems }
+		</div>);
 }
 //#endregion
 
-//#region Foo1Component - Standard
-export const Foo1Component: React.FunctionComponent = props => {
-	return <div>Foo1</div>;
-}
-//#endregion
+//#region ListViewItemTemplate
+export function ListViewItemTemplate<T>(props: ListViewItemProps<T>): React.ReactElement {
+	const { className, item, valueProperty } = props;
 
-//#region Foo2Component - Umgeformt zu einer Funktion
-// Umgeformt zu einer Funktion, weil Funktionen im Gegensatz zu Konstanten einen generischen Typparameter bekommen können.
-export function Foo2Component(props: {}): React.ReactElement {
-	return <div>Foo2</div>;
+	return (
+		<div className={ className }>
+			{ item[valueProperty] }
+		</div>);
 }
 //#endregion

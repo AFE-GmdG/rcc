@@ -1,12 +1,6 @@
 import * as React from "react";
 
-import {
-	WithTheme,
-	withTheme,
-	StyleFunction,
-	classNames,
-	conditionalClassName
-} from "../themes";
+import { StyleFunction, useTheme } from "../themes";
 
 const themedClasses: StyleFunction = theme => ({
 	pageFooter: {
@@ -50,13 +44,11 @@ const themedClasses: StyleFunction = theme => ({
 	}
 });
 
-type PageFooterProps = WithTheme<typeof themedClasses>;
-
-export const PageFooter: React.FunctionComponent = withTheme(themedClasses)(props => {
-	const { classes } = props;
+export const PageFooter: React.FC = props => {
+	const classes = useTheme(themedClasses);
 
 	return (
 		<ul className={ classes.pageFooter }>
 			<li className={ classes.pageFooterItem }>{ `React Control Collection - @afe-gmdg/rcc@${process.env.VERSION}` }</li>
 		</ul>);
-});
+};

@@ -1,10 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import { StyleFunction, Theme, ThemeProvider, classNames, conditionalClassName, defaultTheme, withTheme } from "./themes";
-import { Accordion, AccordionTab, Button, ListView, HorizontalSplitContainer, VerticalSplitContainer, PageFooter } from "./components";
-
-import { Foo1Component, Foo2Component } from "../src/components/listView";
+import { StyleFunction, Theme, ThemeProvider, classNames, conditionalClassName, defaultTheme, useTheme } from "./themes";
+import { Accordion, AccordionTab, Button, ListView, NavigationLink, HorizontalSplitContainer, VerticalSplitContainer, PageFooter } from "./components";
 
 //#region Konstanten
 const themedClasses: StyleFunction = theme => ({
@@ -209,23 +207,16 @@ const themedClasses: StyleFunction = theme => ({
 	}
 });
 
-const listViewDataA: ListViewDataType[] = [
-	{ label: "A / ListView", group: "ListView" },
-	{ label: "A / ListViewItem", group: "ListView" },
-	{ label: "A / TreeView", group: "TreeView" },
-	{ label: "A / TreeViewItem", group: "TreeView" }
-];
-
-const listViewDataB: ListViewDataType[] = [
-	{ label: "B / ListView", group: "ListView" },
-	{ label: "B / ListViewItem", group: "ListView" },
-	{ label: "B / TreeView", group: "TreeView" },
-	{ label: "B / TreeViewItem", group: "TreeView" }
+const listViewData: ListViewDataType[] = [
+	{ label: "ListView", group: "ListView" },
+	{ label: "ListViewItem", group: "ListView" },
+	{ label: "TreeView", group: "TreeView" },
+	{ label: "TreeViewItem", group: "TreeView" }
 ];
 //#endregion
 
 //#region Typen
-type ListViewDataType = {
+export type ListViewDataType = {
 	label: string;
 	group: string;
 	foo?: {};
@@ -238,9 +229,8 @@ let setBusyState: React.Dispatch<React.SetStateAction<BusyState>>;
 //#endregion
 
 //#region App
-const App: React.FunctionComponent = withTheme(themedClasses)(props => {
-	const { classes } = props;
-	const [listViewData, setListViewData] = React.useState<ListViewDataType[]>(listViewDataA);
+const App: React.FunctionComponent = props => {
+	const classes = useTheme(themedClasses);
 	const [busyState, _setBusyState] = React.useState<BusyState>(null);
 	setBusyState = _setBusyState;
 
@@ -249,27 +239,22 @@ const App: React.FunctionComponent = withTheme(themedClasses)(props => {
 			{/* PageTitle / BreadCrumb */ }
 			<HorizontalSplitContainer className={ classes.pageContent } lengths={ [1, 3] }>
 				<div className={ classNames(classes.area, classes.rightBorder, classes.listViewContainer) }>
-					<ListView className={ classes.listView } data={ listViewData } keyName={ "label" } />
+					<ListView className={ classes.listView } data={ listViewData } keyProperty={ "label" } valueProperty={ "label" } itemTemplate={ NavigationLink } />
 				</div>
 				<div className={ classNames(classes.area, classes.leftBorder) }>
-					<button onClick={ () => setListViewData(listViewDataA) }>ListViewDataA</button>
-					<button onClick={ () => setListViewData(listViewDataB) }>ListViewDataB</button>
-
-					<Foo1Component />
-					<Foo2Component />
 				</div>
 			</HorizontalSplitContainer>
 			<PageFooter />
 			<div className={ classNames(classes.spinnerContainer, conditionalClassName(classes.visible, busyState !== null)) }>
 				{ busyState !== null
 					? <>
-						<div className={ props.classes.spinner } />
-						<div className={ props.classes.spinnerTitle }>{ busyState }</div>
+						<div className={ classes.spinner } />
+						<div className={ classes.spinnerTitle }>{ busyState }</div>
 					</>
 					: null }
 			</div>
 		</>);
-});
+};
 //#endregion
 
 //#region ReactDom.render + AppInitialization

@@ -1,13 +1,8 @@
 import * as React from "react";
 
-import {
-	WithTheme,
-	withTheme,
-	StyleFunction,
-	classNames
-} from "../themes";
+import { StyleFunction, classNames, useTheme } from "../themes";
 
-const classes: StyleFunction = theme => ({
+const themedClasses: StyleFunction = theme => ({
 	button: {
 		margin: 0,
 		padding: "0.5rem 1rem",
@@ -23,13 +18,10 @@ const classes: StyleFunction = theme => ({
 });
 
 type ButtonProps = React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
-type ThemedButtonProps = WithTheme<typeof classes> & ButtonProps;
 
-
-const button: React.SFC<ThemedButtonProps> = props => {
-	const { classes, className, children, ...buttonProps } = props;
+export const Button: React.FC<ButtonProps> = props => {
+	const { className, children, ...buttonProps } = props;
+	const classes = useTheme(themedClasses);
 	const buttonClassNames = classNames(className, classes.button);
 	return (<button className={ buttonClassNames } { ...buttonProps }>{ children }</button>);
 };
-
-export const Button: React.FunctionComponent<ButtonProps> = withTheme(classes)(button);

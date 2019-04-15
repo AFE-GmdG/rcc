@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { StyleFunction, WithTheme, withTheme, classNames, conditionalClassName } from "../themes";
+import { StyleFunction, classNames, conditionalClassName, useTheme } from "../themes";
 
 //#region Konstanten
 const themedClasses: StyleFunction = theme => ({
@@ -54,6 +54,7 @@ const themedClasses: StyleFunction = theme => ({
 });
 
 let clearTimeoutHandle: number | undefined = undefined;
+let cancelAnimationFrameHandle: number | undefined = undefined;
 //#endregion
 
 //#region Typen
@@ -62,10 +63,7 @@ type PanelDirection = "horizontal" | "vertical";
 type SplitContainerProps = {
 	className?: string;
 	lengths?: number[];
-	children?: React.ReactNode;
 };
-
-type ThemedSplitContainerProps = WithTheme<typeof themedClasses> & SplitContainerProps;
 
 type SplitPanelProps = {
 	className: string;
@@ -107,7 +105,7 @@ function useLengths(children: React.ReactNode, initialLengths?: number[]): [numb
 //#endregion
 
 //#region SplitContainer
-const splitContainer = (panelDirection: PanelDirection): React.FunctionComponent<SplitContainerProps> => withTheme(themedClasses)((props: ThemedSplitContainerProps) => {
+const splitContainer = (panelDirection: PanelDirection): React.FC<SplitContainerProps> => props => {
 	function onSplitterMouseDown(event: React.MouseEvent<HTMLDivElement>) {
 		type ChildInfo = {
 			element: HTMLDivElement;
@@ -201,7 +199,8 @@ const splitContainer = (panelDirection: PanelDirection): React.FunctionComponent
 		event.stopPropagation();
 	}
 
-	const { classes, children, className } = props;
+	const { children, className } = props;
+	const classes = useTheme(themedClasses);
 	const [lengths, setLengths] = useLengths(children, props.lengths);
 
 	const panels: React.ReactNode = !children
@@ -224,19 +223,18 @@ const splitContainer = (panelDirection: PanelDirection): React.FunctionComponent
 		<div className={ classNames(className, classes.splitterContainer, panelDirection === "horizontal" ? classes.row : classes.col) }>
 			{ panels }
 		</div>);
-});
+};
 
-const SplitPanel: React.FunctionComponent<SplitPanelProps> = props => {
+const SplitPanel: React.FC<SplitPanelProps> = props => {
 	const { className, size, child } = props;
 
 	React.useLayoutEffect(() => {
-		// console.log(`SplitPanel: ${size}`);
-		// Debounced Resize Event.
-		if (clearTimeoutHandle !== undefined) {
-			window.clearTimeout(clearTimeoutHandle);
-		}
-		clearTimeoutHandle = window.setTimeout(() => {
-			clearTimeoutHandle = undefined;
+		// Debounce multiple resize events within the same AnimationFrame.
+		if (cancelAnimationFrameHandle !== undefined) {
+			window.cancelAnimationFrame(cancelAnimationFrameHandle);
+		};
+		cancelAnimationFrameHandle = window.requestAnimationFrame(() => {
+			cancelAnimationFrameHandle = undefined;
 			const resizeEvent = window.document.createEvent("UIEvent");
 			resizeEvent.initUIEvent("resize", true, false, window, 0);
 			window.dispatchEvent(resizeEvent);
