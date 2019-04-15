@@ -1,8 +1,10 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 
 import { StyleFunction, Theme, ThemeProvider, classNames, conditionalClassName, defaultTheme, useTheme } from "./themes";
 import { Accordion, AccordionTab, Button, ListView, NavigationLink, HorizontalSplitContainer, VerticalSplitContainer, PageFooter } from "./components";
+import { Index } from "./views";
 
 //#region Konstanten
 const themedClasses: StyleFunction = theme => ({
@@ -192,7 +194,7 @@ const themedClasses: StyleFunction = theme => ({
 		borderLeft: `1px solid ${theme.colors.borderColor}`
 	},
 
-	listViewContainer: {
+	splitterChildContainer: {
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "flex-start",
@@ -238,10 +240,14 @@ const App: React.FunctionComponent = props => {
 		<>
 			{/* PageTitle / BreadCrumb */ }
 			<HorizontalSplitContainer className={ classes.pageContent } lengths={ [1, 3] }>
-				<div className={ classNames(classes.area, classes.rightBorder, classes.listViewContainer) }>
+				<div className={ classNames(classes.area, classes.rightBorder, classes.splitterChildContainer) }>
 					<ListView className={ classes.listView } data={ listViewData } keyProperty={ "label" } valueProperty={ "label" } itemTemplate={ NavigationLink } />
 				</div>
-				<div className={ classNames(classes.area, classes.leftBorder) }>
+				<div className={ classNames(classes.area, classes.leftBorder, classes.splitterChildContainer) }>
+					<BrowserRouter>
+						<Route path="/" exact component={ Index } />
+
+					</BrowserRouter>
 				</div>
 			</HorizontalSplitContainer>
 			<PageFooter />
