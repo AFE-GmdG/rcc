@@ -27,7 +27,7 @@ export const defaultTheme = {
 		accentColor: "hsl(163, 80%, 40%)",
 		selectedColor: "hsl(163, 65%, 5%)",
 		backgroundColor: "hsl(0, 0%, 12%)",
-		hoverBackgroundColor: "hsl(0, 0%, 18%)",
+		hoverBackgroundColor: "hsl(0, 0%, 22%)",
 		accentBackgroundColor: "hsl(163, 80%, 40%)",
 		selectedBackgroundColor: "hsl(163, 65%, 50%)",
 

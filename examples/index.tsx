@@ -4,7 +4,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 
 import { StyleFunction, Theme, ThemeProvider, classNames, conditionalClassName, defaultTheme, useTheme } from "./themes";
 import { Accordion, AccordionTab, Button, ListView, NavigationLink, HorizontalSplitContainer, VerticalSplitContainer, PageFooter } from "./components";
-import { Index } from "./views";
+import { Index, ListViewApi } from "./views";
 
 //#region Konstanten
 const themedClasses: StyleFunction = theme => ({
@@ -18,6 +18,7 @@ const themedClasses: StyleFunction = theme => ({
 			color: theme.colors.color,
 			backgroundColor: theme.colors.backgroundColor,
 			userSelect: "none",
+			fontFamily: "'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif",
 			fontSize: theme.fonts.fontSizeMedium
 		},
 
@@ -210,10 +211,10 @@ const themedClasses: StyleFunction = theme => ({
 });
 
 const listViewData: ListViewDataType[] = [
-	{ label: "ListView", group: "ListView" },
-	{ label: "ListViewItem", group: "ListView" },
-	{ label: "TreeView", group: "TreeView" },
-	{ label: "TreeViewItem", group: "TreeView" }
+	{ label: "ListView", group: "ListView", link: "/listView" },
+	{ label: "ListViewItem", group: "ListView", link: "/listView/listViewItem" },
+	{ label: "TreeView", group: "TreeView", link: "/treeView" },
+	{ label: "TreeViewItem", group: "TreeView", link: "/treeView/treeViewItem" }
 ];
 //#endregion
 
@@ -221,7 +222,7 @@ const listViewData: ListViewDataType[] = [
 export type ListViewDataType = {
 	label: string;
 	group: string;
-	foo?: {};
+	link: string;
 };
 
 type BusyState = string | null;
@@ -239,17 +240,17 @@ const App: React.FunctionComponent = props => {
 	return (
 		<>
 			{/* PageTitle / BreadCrumb */ }
-			<HorizontalSplitContainer className={ classes.pageContent } lengths={ [1, 3] }>
-				<div className={ classNames(classes.area, classes.rightBorder, classes.splitterChildContainer) }>
-					<ListView className={ classes.listView } data={ listViewData } keyProperty={ "label" } valueProperty={ "label" } itemTemplate={ NavigationLink } />
-				</div>
-				<div className={ classNames(classes.area, classes.leftBorder, classes.splitterChildContainer) }>
-					<BrowserRouter>
+			<BrowserRouter>
+				<HorizontalSplitContainer className={ classes.pageContent } lengths={ [1, 3] }>
+					<div className={ classNames(classes.area, classes.rightBorder, classes.splitterChildContainer) }>
+						<ListView className={ classes.listView } data={ listViewData } keyProperty={ "label" } valueProperty={ "label" } itemTemplate={ NavigationLink } />
+					</div>
+					<div className={ classNames(classes.area, classes.leftBorder, classes.splitterChildContainer) }>
 						<Route path="/" exact component={ Index } />
-
-					</BrowserRouter>
-				</div>
-			</HorizontalSplitContainer>
+						<Route path="/listView" component={ ListViewApi } />
+					</div>
+				</HorizontalSplitContainer>
+			</BrowserRouter>
 			<PageFooter />
 			<div className={ classNames(classes.spinnerContainer, conditionalClassName(classes.visible, busyState !== null)) }>
 				{ busyState !== null

@@ -142,7 +142,7 @@ module.exports = (env) => [{
 		contentBase: path.resolve(cwd, "example-dist"),
 		compress: true,
 		port: 8080,
-		historyApiFallback: false,
+		historyApiFallback: true,
 		inline: true,
 		hot: false,
 		quiet: false,
