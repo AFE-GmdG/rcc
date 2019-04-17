@@ -2,7 +2,7 @@
 	"files.exclude": {
 		".git": true,
 		".vscode": true,
-		"node_modules": false,
+		"node_modules": true,
 		"rcc.code-workspace": true,
 		"yarn.lock": true,
 		"yarn-error.log": true
