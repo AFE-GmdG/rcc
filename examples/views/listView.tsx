@@ -3,7 +3,7 @@ import * as React from "react";
 import { StyleFunction, useTheme } from "../themes";
 import { frameClasses } from ".";
 
-import { ListView } from "../components";
+import { CodeView, ListView } from "../components";
 
 //#region Konstanten
 const themedClasses: StyleFunction = theme => ({
@@ -14,6 +14,9 @@ const themedClasses: StyleFunction = theme => ({
 		padding: "2rem"
 	}
 });
+
+const code1 = `import * as React from "react";
+import { ListView } from "rcc";`;
 //#endregion
 
 //#region ListViewApi
@@ -25,12 +28,7 @@ export const ListViewApi: React.FC = props => {
 		<div className={ frame.root }>
 			<h1>ListView</h1>
 			<h2>Api</h2>
-			<pre>
-				<code className="typescript">
-import * as React from "react";
-import { ListView } from "rcc";
-				</code>
-			</pre>
+			<CodeView code={ code1 } />
 		</div>);
 };
 //#endregion

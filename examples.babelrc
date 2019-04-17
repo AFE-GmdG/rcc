@@ -1,7 +1,6 @@
 {
 	"presets": [
 		["@babel/preset-react"],
-		["@babel/preset-typescript"],
 		["@babel/preset-env", {
 			"targets": { "esmodules": true },
 			"spec": true,
@@ -13,8 +12,6 @@
 	],
 
 	"plugins": [
-		"@babel/proposal-class-properties",
-		"@babel/proposal-object-rest-spread",
 		"@babel/plugin-syntax-dynamic-import"
 	]
 }
