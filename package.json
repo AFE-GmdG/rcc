@@ -1,6 +1,6 @@
 {
   "name": "@afe-gmdg/rcc",
-  "version": "0.0.4",
+  "version": "0.0.4-ListView",
   "description": "React Control Collection",
   "main": "lib/index.js",
   "author": "AFE-GmdG <afe-gmdg@gmx.de>",
