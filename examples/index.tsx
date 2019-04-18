@@ -1,21 +1,10 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { BrowserRouter, Route } from "react-router-dom";
-// @ts-ignore:7016 -- no implicit any
-import * as hljs from "highlight.js/lib/highlight";
-// @ts-ignore:7016 -- no implicit any
-import typescript from "highlight.js/lib/languages/typescript";
-import "file-loader?name=highlight.css!highlight.js/styles/monokai-sublime.css";
 
 import { StyleFunction, Theme, ThemeProvider, classNames, conditionalClassName, defaultTheme, useTheme } from "./themes";
 import { Accordion, AccordionTab, Button, ListView, NavigationLink, HorizontalSplitContainer, VerticalSplitContainer, PageFooter } from "./components";
 import { Index, ListViewApi } from "./views";
-
-//#region highlight.js Initialization
-hljs.registerLanguage("typescript", typescript);
-hljs.configure();
-hljs.initHighlighting();
-//#endregion
 
 //#region Konstanten
 const themedClasses: StyleFunction = theme => ({
@@ -222,6 +211,7 @@ const themedClasses: StyleFunction = theme => ({
 });
 
 const listViewData: ListViewDataType[] = [
+	{ label: "Basic usage", group: "CodeView", link: "/codeView" },
 	{ label: "Basic usage", group: "ListView", link: "/listView" },
 	{ label: "Binding to remote data", group: "ListView", link: "/listView/remote-data" },
 	{ label: "TreeView", group: "TreeView", link: "/treeView" },
