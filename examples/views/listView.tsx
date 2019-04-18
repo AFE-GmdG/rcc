@@ -17,6 +17,15 @@ const themedClasses: StyleFunction = theme => ({
 
 const code1 = `import * as React from "react";
 import { ListView } from "rcc";`;
+
+const code2 = `/**
+ * The Hello class provides a single method greet
+ */
+class Hello {
+	greet()	{
+		console.log("Hello, World!");
+	}
+}`;
 //#endregion
 
 //#region ListViewApi
@@ -29,6 +38,7 @@ export const ListViewApi: React.FC = props => {
 			<h1>ListView</h1>
 			<h2>Api</h2>
 			<CodeView code={ code1 } />
+			<CodeView code={ code2 } />
 		</div>);
 };
 //#endregion

@@ -5,7 +5,13 @@ import { StyleFunction, classNames, useTheme } from "../themes";
 //#region Konstanten
 const themedClasses: StyleFunction = theme => ({
 	codeView: {
-		position: "relative"
+		position: "relative",
+		margin: "1em 0"
+	},
+
+	code: {
+		padding: "0.5em",
+		overflowY: "auto"
 	}
 });
 //#endregion
@@ -22,18 +28,13 @@ export const CodeView: React.FC<CodeViewProps> = props => {
 	const { className, code } = props;
 	const classes = useTheme(themedClasses);
 	const codeRef = React.useRef<HTMLElement>(null);
+	React.useEffect(() => {
+		import("./codeViewDynamicInit").then(hljs => hljs.highlightBlock(codeRef));
+	}, [code]);
 
 	return (
-		<pre className={ classNames(className, classes.codeView) } onClick={ initializeCodeView }>
-			<code ref={ codeRef }>{ code }</code>
+		<pre className={ classNames(className, classes.codeView) }>
+			<code className={ classes.code } ref={ codeRef }>{ code }</code>
 		</pre>);
-};
-//#endregion
-
-//#region Hilfsfunktionen
-const initializeCodeView = () => {
-	import("./codeViewDynamicInit").then(e => {
-		console.log();
-	});
 };
 //#endregion

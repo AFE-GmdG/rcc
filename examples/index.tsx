@@ -211,6 +211,7 @@ const themedClasses: StyleFunction = theme => ({
 });
 
 const listViewData: ListViewDataType[] = [
+	{ label: "Basic usage", group: "CodeView", link: "/codeView" },
 	{ label: "Basic usage", group: "ListView", link: "/listView" },
 	{ label: "Binding to remote data", group: "ListView", link: "/listView/remote-data" },
 	{ label: "TreeView", group: "TreeView", link: "/treeView" },
