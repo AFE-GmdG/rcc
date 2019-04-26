@@ -53,7 +53,6 @@ const themedClasses: StyleFunction = theme => ({
 	}
 });
 
-let clearTimeoutHandle: number | undefined = undefined;
 let cancelAnimationFrameHandle: number | undefined = undefined;
 //#endregion
 
