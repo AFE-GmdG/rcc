@@ -1,4 +1,4 @@
-export { Accordion, AccordionTab } from "./accordion";
+export { Accordion, AccordionTabTemplate, AccordionTabTemplateProps } from "./accordion";
 export { Button } from "./button";
 export { CodeView } from "./codeView";
 export { ListView, ListViewItemProps } from "./listView";

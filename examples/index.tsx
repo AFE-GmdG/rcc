@@ -3,7 +3,7 @@ import * as ReactDOM from "react-dom";
 import { BrowserRouter, Route } from "react-router-dom";
 
 import { StyleFunction, Theme, ThemeProvider, classNames, conditionalClassName, defaultTheme, useTheme } from "./themes";
-import { Accordion, AccordionTab, Button, ListView, NavigationLink, HorizontalSplitContainer, VerticalSplitContainer, PageFooter } from "./components";
+import { Accordion, AccordionTabTemplate, AccordionTabTemplateProps, Button, ListView, NavigationLink, HorizontalSplitContainer, VerticalSplitContainer, PageFooter } from "./components";
 import { Index, ListViewApi } from "./views";
 
 //#region Konstanten

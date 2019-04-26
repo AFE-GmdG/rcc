@@ -37,6 +37,12 @@ export const defaultTheme = {
 		borderColor: "hsl(163, 25%, 40%)"
 	},
 
+	sectionHeader: {
+		color: "hsl(0, 0%, 95%)",
+		backgroundColor: "hsl(0, 0%, 23%)",
+		border: "1px solid hsl(0, 0%, 10%)"
+	},
+
 	box: {
 		shadow: "0 0 1rem 0 hsla(0, 0%, 0%, 0.75)"
 	}
