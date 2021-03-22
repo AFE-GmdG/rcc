@@ -1,13 +1,7 @@
 *.log
 *.tgz
 
-.vs/
 .vscode/
 node_modules/
-dist/
-example-dist/
-src/
 rcc.code-workspace
-tsconfig.json
-webpack.config.js
 yarn.lock

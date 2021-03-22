@@ -1,0 +1,14 @@
+{
+  "name": "@afegmdg/rcc-core",
+  "version": "0.1.0",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "webpack --mode=production"
+  },
+  "devDependencies": {
+    "typescript": "4.2.3",
+    "webpack": "5.27.1",
+    "webpack-cli": "4.5.0"
+  }
+}

@@ -1,68 +1,11 @@
 {
-  "name": "@afe-gmdg/rcc",
-  "version": "0.0.5",
+  "name": "@afegmdg/rcc",
+  "version": "0.1.0",
   "description": "React Control Collection",
-  "main": "lib/index.js",
   "author": "AFE-GmdG <afe-gmdg@gmx.de>",
   "license": "MIT",
-  "scripts": {
-    "start": "webpack-dev-server --env debug",
-    "prebuild:examples": "rimraf dist example-dist",
-    "build:examples": "webpack --env release",
-    "prebuild": "rimraf dist example-dist",
-    "build": "tsc --build tsconfig.build.json"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/AFE-GmdG/rcc.git"
-  },
-  "keywords": [
-    "React",
-    "Controls"
-  ],
-  "devDependencies": {
-    "@babel/cli": "7.4.3",
-    "@babel/core": "7.4.3",
-    "@babel/plugin-proposal-class-properties": "7.4.0",
-    "@babel/plugin-proposal-object-rest-spread": "7.4.3",
-    "@babel/plugin-syntax-dynamic-import": "7.2.0",
-    "@babel/polyfill": "7.4.3",
-    "@babel/preset-env": "7.4.3",
-    "@babel/preset-react": "7.0.0",
-    "@babel/preset-typescript": "7.3.3",
-    "@typeless/jss": "5.5.0",
-    "@typeless/jss-preset-default": "0.5.1",
-    "@types/node": "11.13.4",
-    "@types/react": "16.8.13",
-    "@types/react-dom": "16.8.4",
-    "@types/react-router": "4.4.5",
-    "@types/react-router-dom": "4.3.2",
-    "babel-loader": "8.0.5",
-    "csstype": "2.6.3",
-    "file-loader": "3.0.1",
-    "highlight.js": "9.15.6",
-    "html-webpack-plugin": "3.2.0",
-    "jss": "9.8.7",
-    "jss-preset-default": "4.5.0",
-    "raw-loader": "2.0.0",
-    "react": "16.8.6",
-    "react-dom": "16.8.6",
-    "react-router": "4.3.1",
-    "react-router-dom": "4.3.1",
-    "rimraf": "2.6.3",
-    "terser-webpack-plugin": "1.2.3",
-    "ts-loader": "5.3.3",
-    "typescript": "3.4.3",
-    "webpack": "4.30.0",
-    "webpack-cli": "3.3.0",
-    "webpack-dev-server": "3.3.1"
-  },
-  "peerDependencies": {
-    "csstype": "^2.6.3",
-    "highlight.js": "^9.15.6",
-    "jss": "^9.8.7",
-    "jss-preset-default": "^4.5.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
-  }
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
 }
