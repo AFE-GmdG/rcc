@@ -137,6 +137,7 @@ module.exports = (_env, argv) => {
         ...config.plugins,
 
         new webpack.DefinePlugin({
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           "process.env.NODE_ENV": JSON.stringify("development"),
           // eslint-disable-next-line global-require
           "process.env.VERSION": JSON.stringify(require("./package.json").version),
@@ -198,6 +199,7 @@ module.exports = (_env, argv) => {
       ...config.plugins,
 
       new webpack.DefinePlugin({
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         "process.env.NODE_ENV": JSON.stringify("production"),
         // eslint-disable-next-line global-require
         "process.env.VERSION": JSON.stringify(require("./package.json").version),

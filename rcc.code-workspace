@@ -47,7 +47,7 @@
     "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis": false,
     "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": false,
     "typescript.format.insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": false,
-    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": false,
     "typescript.format.placeOpenBraceOnNewLineForFunctions": false,
     "typescript.format.placeOpenBraceOnNewLineForControlBlocks": false,
 
@@ -59,7 +59,7 @@
     "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis": false,
     "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": false,
     "javascript.format.insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": false,
-    "javascript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
+    "javascript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": false,
     "javascript.format.placeOpenBraceOnNewLineForFunctions": false,
     "javascript.format.placeOpenBraceOnNewLineForControlBlocks": false,
     "svg.preview.background": "transparent",
@@ -67,12 +67,74 @@
 
 	"launch": {
 		"version": "0.2.0",
-		"configurations": [],
+		"configurations": [
+      {
+        "name": "Start Examples",
+        "type": "chrome",
+        "request": "launch",
+        "url": "http://localhost:3000",
+        "webRoot": "${workspaceFolder}/packages/examples/dist",
+        "preLaunchTask": "build-examples",
+        "breakOnLoad": false,
+        "sourceMaps": true,
+        "sourceMapPathOverrides": {
+          "webpack:///./*": "${workspaceFolder}/packages/examples/src/*",
+          "webpack:///*": "*",
+        },
+      },
+    ],
 		"compounds": [],
 	},
 
 	"tasks": {
 		"version": "2.0.0",
-		"tasks": [],
+		"tasks": [
+      {
+        "label": "build-examples",
+        "type": "process",
+        "command": "yarn",
+        "windows": {
+          "command": "yarn.cmd",
+        },
+        "args": [
+          "--cwd",
+          "${workspaceFolder}/packages/examples",
+          "start",
+        ],
+        "problemMatcher": {
+          "owner": "webpack",
+          "severity": "error",
+          "fileLocation": "absolute",
+          "pattern": [
+            {
+              "regexp": "ERROR in [^ ]* (.*):(.*):(.*)",
+              "file": 1,
+              "line": 2,
+              "column": 3,
+            },
+            {
+              "regexp": ".*",
+              "message": 0
+            },
+          ],
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": "^.*: Compiling\\.\\.\\.$",
+            "endsPattern": "^.*: (?:Compiled successfully|Compiled with warnings|Failed to compile)\\.$",
+          },
+        },
+        "group": "none",
+        "presentation": {
+          "echo": true,
+          "reveal": "silent",
+          "focus": false,
+          "panel": "shared",
+          "showReuseMessage": false,
+          "clear": true
+        },
+        "isBackground": true,
+        "promptOnClose": false,
+      },
+    ],
 	},
 }
