@@ -63,7 +63,14 @@
     "javascript.format.placeOpenBraceOnNewLineForFunctions": false,
     "javascript.format.placeOpenBraceOnNewLineForControlBlocks": false,
     "svg.preview.background": "transparent",
-	},
+
+    "json.schemas": [
+      {
+        "fileMatch": ["gantt.json"],
+        "url": "./packages/examples/schemas/gantt.schema.json",
+      },
+    ],
+  },
 
 	"launch": {
 		"version": "0.2.0",

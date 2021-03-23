@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/gantt.schema.json",
+  "title": "Gantt Data",
+  "description": "The data of a gantt diagram.",
+  "type": "array"
+}

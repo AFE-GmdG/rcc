@@ -25,6 +25,7 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "file-loader": "6.2.0",
     "html-webpack-plugin": "5.3.1",
+    "raw-loader": "4.0.2",
     "rimraf": "3.0.2",
     "style-loader": "2.0.0",
     "ts-loader": "8.0.18",
@@ -41,6 +42,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-router": "5.2.0",
-    "react-router-dom": "5.2.0"
+    "react-router-dom": "5.2.0",
+    "remarkable": "2.0.1"
   }
 }

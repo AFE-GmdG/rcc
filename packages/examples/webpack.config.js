@@ -90,7 +90,7 @@ const config = {
         from: path.resolve(cwd, "src/assets"),
         to: path.resolve(cwd, "dist/assets"),
         globOptions: {
-          ignore: ["**/*.png", "**/*.jpg", "**/*.jpeg", "**/*.gif"],
+          ignore: ["**/*.png", "**/*.jpg", "**/*.jpeg", "**/*.gif", "**/*.svg", "**/*.json"],
         },
       }],
     }),
