@@ -155,6 +155,7 @@ module.exports = (_env, argv) => {
         headers: {
           "Cross-Origin-Embedder-Policy": "require-corp",
           "Cross-Origin-Opener-Policy": "same-origin",
+          "Cross-Origin-Resource-Policy": "cross-origin",
           "Access-Control-Allow-Origin": "http://localhost:3000",
           "Access-Control-Allow-Credentials": "true",
           "Access-Control-Allow-Headers": "*",

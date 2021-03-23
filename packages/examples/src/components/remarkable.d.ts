@@ -17,7 +17,7 @@ declare module "remarkable" {
 
     set(options: RemarkableOptions): void;
 
-    render(md: string);
-    render(md: string, env: Object);
+    render(md: string): string;
+    render(md: string, env: Object): string;
   }
 }

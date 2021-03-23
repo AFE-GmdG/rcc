@@ -6,7 +6,7 @@ import { Remarkable } from "../components/remarkable";
 import md from "!!raw-loader!../../../../README.md";
 
 export const Slash: React.FC = () => {
-  if (md === null) {
+  if (md == null) {
     return null;
   }
 

@@ -1,15 +1,17 @@
 import React from "react";
 import { render } from "react-dom";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
+import Box from "@material-ui/core/Box";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 
 import MenuIcon from "@material-ui/icons/Menu";
 
+import { Gantt } from "./views/gantt";
 import { Slash } from "./views/slash";
 
 import "./app.css";
@@ -34,7 +36,12 @@ const App: React.FC = () => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Slash />
+      <Box flex="1 0 0px">
+        <Switch>
+          <Route path="/components/gantt" component={Gantt} />
+          <Route component={Slash} />
+        </Switch>
+      </Box>
     </BrowserRouter>
   );
 };

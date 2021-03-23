@@ -11,14 +11,20 @@ export type RemarkableProps = {
 
 export const Remarkable: React.FC<RemarkableProps> = (props) => {
   const {
-    options = { html: true, xhtmlOut: true, breaks: true },
+    options = { html: true, xhtmlOut: true },
     source,
     children,
   } = props;
   const md = React.useMemo(() => new Markdown(options), [options]);
 
+  const renderMarkdown = (markdown: string) => {
+    const html = md.render(markdown);
+    const replaced = html.replace(/(<img)/mg, "<img crossorigin");
+    return replaced;
+  };
+
   if (source) {
-    return (<span dangerouslySetInnerHTML={{ __html: md.render(source) }} />);
+    return (<span dangerouslySetInnerHTML={{ __html: renderMarkdown(source) }} />);
   }
 
   return (
@@ -26,7 +32,7 @@ export const Remarkable: React.FC<RemarkableProps> = (props) => {
       {
         React.Children.map(children, (child) => {
           if (typeof child === "string") {
-            return (<span dangerouslySetInnerHTML={{ __html: md.render(child) }} />);
+            return (<span dangerouslySetInnerHTML={{ __html: renderMarkdown(child) }} />);
           }
           return child;
         })
