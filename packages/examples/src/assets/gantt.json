@@ -1,1 +1,24 @@
-[]
+{
+  "workingDay": {
+    "slots": [
+      "08:00-10:00",
+      "10:00-12:00",
+      "13:00-15:00",
+      "15:00-17:00"
+    ]
+  },
+  "workingDays": ["Mo", "Tu", "We", "Th", "Fr"],
+  "firstDayOfWeek": "Mo",
+  "epics": [
+    {
+      "id": 0,
+      "type": "Epic",
+      "title": "Sell a gantt component"
+    },
+    {
+      "id": 5,
+      "type": "Epic",
+      "title": "Buy a car"
+    }
+  ]
+}

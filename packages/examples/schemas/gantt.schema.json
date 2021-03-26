@@ -3,5 +3,63 @@
   "$id": "https://example.com/gantt.schema.json",
   "title": "Gantt Data",
   "description": "The data of a gantt diagram.",
-  "type": "array"
+
+  "definitions": {
+    "uint": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "uint1": {
+      "type": "integer",
+      "minimum": 1
+    },
+
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+
+    "weekday": {
+      "type": "string",
+      "enum": ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
+    },
+
+    "GanttConfig": {
+      "type": "object",
+      "properties": {
+        "workingDay": {
+          "type": "object"
+        },
+        "weekendDay": {
+          "type": "object"
+        },
+        "workingDays": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/weekday" },
+          "uniqueItems": true
+        },
+        "firstDayOfWeek": { "$ref": "#/definitions/weekday" },
+        "epics": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/GanttEpic" },
+          "minItems": 0
+        }
+      },
+      "required": ["workingDay", "workingDays", "firstDayOfWeek", "epics"]
+    },
+
+    "GanttEpic": {
+      "type": "object",
+      "properties": {
+        "id": { "$ref": "#/definitions/uint" },
+        "type": { "const": "Epic" },
+        "title": { "$ref": "#/definitions/title" }
+      },
+      "required": ["id", "type", "title"],
+      "additionalProperties": false
+    }
+  },
+
+  "$ref": "#/definitions/GanttConfig"
 }

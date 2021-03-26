@@ -12,8 +12,9 @@ import "./app.css";
 
 const useStyles = makeStyles((_theme: Theme) => createStyles({
   content: {
+    position: "relative",
     flex: "1 0 0px",
-    padding: "0.5rem 1.0rem",
+    padding: "1.0rem",
   },
 }));
 
