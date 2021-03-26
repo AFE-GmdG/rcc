@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 export const Gantt: React.FC = () => {
   const classes = useStyles();
   const [ganttConfig, setGanttConfig] = React.useState(createEmptyGanttConfig());
+  const [myText, setMyText] = React.useState("");
   React.useEffect(() => {
     import("../assets/gantt.json").then(({ default: { firstDayOfWeek } }) => {
       if (!isGanttWeekDay(firstDayOfWeek)) {
@@ -52,6 +53,10 @@ export const Gantt: React.FC = () => {
         <Button startIcon={<SettingsIcon />} color="primary" variant="contained">Setup</Button>
       </div>
       <GanttChart className={classes.ganttBox} data={ganttConfig} />
+      <div className={classes.setupBox}>
+        <input type="text" value={myText} onChange={(e) => setMyText(e.currentTarget.value)} placeholder="Type here..." />
+        <p>{myText}</p>
+      </div>
     </Paper>
   );
 };
